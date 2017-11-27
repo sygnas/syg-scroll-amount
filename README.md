@@ -49,8 +49,8 @@ const target1 = new ScrollAmount($('.js-scroll-amount'), {
 | ---- | ---- |
 | top | スクロール位置が最上部 |
 | not-top | スクロール位置が最上部ではない |
-| bottom | スクロール位置が最下部 |
-| not-bottom | スクロール位置が最下部ではない |
+| bottom | スクロール位置が最下部 |
+| not-bottom | スクロール位置が最下部ではない |
 
 
 ## Options
