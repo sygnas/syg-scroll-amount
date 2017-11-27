@@ -1,0 +1,23 @@
+{
+  "name": "syg-scroll-amount",
+  "version": "1.0.0",
+  "description": "Add scrolling state(top / not-top / bottom / not-bottom)",
+  "main": "index.js",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sygnas/syg-scroll-amount"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [
+    "scroll"
+  ],
+  "author": "Hiroshi Fukuda <info.sygnas@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "syg-throttle": "^1.1.1"
+  }
+}
