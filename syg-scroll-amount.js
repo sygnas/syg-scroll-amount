@@ -121,7 +121,7 @@ export default class {
         // 前回と同じなら反映しない
         if (results_str !== this.last_results_str) {
             this.last_results_str = results_str;
-            this.target.forEach((target) => {
+            get_node_array(this.target).forEach((target) => {
                 target.setAttribute(ATTR_NAME, results_str);
             });
         }
@@ -173,3 +173,11 @@ export default class {
     }
 }
 
+
+
+/**
+ * NodeListをArrayとして取り出す（IE対策）
+ */
+function get_node_array(node_list) {
+    return Array.prototype.slice.call(node_list, 0);
+}

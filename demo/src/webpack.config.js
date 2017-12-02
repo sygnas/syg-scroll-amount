@@ -4,11 +4,21 @@ const webpack = require(`${modules_path}webpack`);
 const webpack_config = {
     entry: ['./demo.js'],
     output: {
-        path: __dirname + '/../',
+        path: `${__dirname}/../`,
         filename: 'bundle.js'
     },
     resolve: {
         extensions: ['.js']
+    },
+    module: {
+        rules: [
+            {
+                // Babel
+                test: /\.js$/,
+                // exclude: /node_modules/,
+                use: `${modules_path}babel-loader`
+            }
+        ]
     }
 };
 

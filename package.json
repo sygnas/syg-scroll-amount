@@ -1,8 +1,8 @@
 {
   "name": "syg-scroll-amount",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Add scrolling state(top / not-top / bottom / not-bottom)",
-  "main": "index.js",
+  "main": "syg-scroll-amount.js",
   "private": false,
   "repository": {
     "type": "git",
