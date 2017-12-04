@@ -132,7 +132,6 @@ export default class {
     */
     _check_top_and_bottom(scroll_top) {
         const opt = this.opt;
-        const $target = this.target;
         const doc_height = document.documentElement.scrollHeight;
         const scroll_bottom = doc_height - this.win_height;
 
