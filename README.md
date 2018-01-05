@@ -22,7 +22,7 @@ npm install syg-scroll-amount
 ```JavaScript
 import ScrollAmount from 'syg-scroll-amount';
 
-const target1 = new ScrollAmount($('.js-scroll-amount'), {
+const target1 = new ScrollAmount('.js-scroll-amount', {
     // Options
 });
 ```
