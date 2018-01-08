@@ -5,7 +5,7 @@
  * @license  MIT
  */
 
-import throttle from 'syg-throttle';
+import throttle from '@sygnas/throttle';
 
 const ATTR_NAME = 'data-scroll-amount';
 const ATTR_TOP = 'top';

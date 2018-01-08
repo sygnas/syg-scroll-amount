@@ -1,21 +1,10 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global['syg-scroll-amount'] = factory());
-}(this, (function () { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@sygnas/throttle')) :
+	typeof define === 'function' && define.amd ? define(['@sygnas/throttle'], factory) :
+	(global['syg-scroll-amount'] = factory(global.throttle));
+}(this, (function (throttle) { 'use strict';
 
-var index = function index(timing, func, scope) {
-    var id = null;
-
-    return function () {
-        if (id !== null) return;
-        func.apply(scope);
-
-        id = setTimeout(function () {
-            id = null;
-        }, timing);
-    };
-};
+throttle = throttle && throttle.hasOwnProperty('default') ? throttle['default'] : throttle;
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -119,8 +108,8 @@ var _class = function () {
             if (this.is_started) return;
 
             // イベントオブジェクト
-            this.ev_resize = index(50, this._resize, this);
-            this.ev_scroll = index(100, this._scroll, this);
+            this.ev_resize = throttle(50, this._resize, this);
+            this.ev_scroll = throttle(100, this._scroll, this);
 
             // リサイズイベントでドキュメント高さチェック
             this._resize();
@@ -249,4 +238,4 @@ function get_node_array(node_list) {
 return _class;
 
 })));
-//# sourceMappingURL=syg-scroll-amount.js.map
+//# sourceMappingURL=scroll-amount.js.map

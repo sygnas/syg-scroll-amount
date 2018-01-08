@@ -1,5 +1,5 @@
 
-import ScrollAmount from '../../syg-scroll-amount';
+import ScrollAmount from '../../dist/scroll-amount';
 
 const target1 = new ScrollAmount('.js-scroll-amount', {
     onTop() {

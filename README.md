@@ -10,7 +10,7 @@ Set data attribute according to status at the time of page scroll(top / not-top 
 ## Usage
 ### Install
 ```sh
-npm install syg-scroll-amount
+npm install --save @sygnas/scroll-amount
 ```
 ### html / JS / css
 ```html
@@ -20,7 +20,7 @@ npm install syg-scroll-amount
 ```
 
 ```JavaScript
-import ScrollAmount from 'syg-scroll-amount';
+import ScrollAmount from '@sygnas/scroll-amount';
 
 const target1 = new ScrollAmount('.js-scroll-amount', {
     // Options

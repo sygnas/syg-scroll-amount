@@ -1,15 +1,4 @@
-var index = function index(timing, func, scope) {
-    var id = null;
-
-    return function () {
-        if (id !== null) return;
-        func.apply(scope);
-
-        id = setTimeout(function () {
-            id = null;
-        }, timing);
-    };
-};
+import throttle from '@sygnas/throttle';
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -113,8 +102,8 @@ var _class = function () {
             if (this.is_started) return;
 
             // イベントオブジェクト
-            this.ev_resize = index(50, this._resize, this);
-            this.ev_scroll = index(100, this._scroll, this);
+            this.ev_resize = throttle(50, this._resize, this);
+            this.ev_scroll = throttle(100, this._scroll, this);
 
             // リサイズイベントでドキュメント高さチェック
             this._resize();
@@ -241,4 +230,4 @@ function get_node_array(node_list) {
 }
 
 export default _class;
-//# sourceMappingURL=syg-scroll-amount.es.js.map
+//# sourceMappingURL=scroll-amount.es.js.map

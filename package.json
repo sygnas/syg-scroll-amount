@@ -1,9 +1,9 @@
 {
-  "name": "syg-scroll-amount",
+  "name": "@sygnas/scroll-amount",
   "version": "1.1.1",
   "description": "Add scrolling state(top / not-top / bottom / not-bottom)",
-  "main": "dist/syg-scroll-amount.js",
-  "module": "dist/syg-scroll-amount.es.js",
+  "main": "dist/scroll-amount.js",
+  "module": "dist/scroll-amount.es.js",
   "moduleName": "syg-scroll-amount",
   "private": false,
   "repository": {
@@ -36,7 +36,7 @@
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.3.1"
   },
-   "dependencies": {
-    "syg-throttle": "^1.3.1"
+  "dependencies": {
+    "@sygnas/throttle": "^1.3.3"
   }
 }
