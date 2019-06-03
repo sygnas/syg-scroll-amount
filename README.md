@@ -63,6 +63,7 @@ const target1 = new ScrollAmount('.js-scroll-amount', {
 | onNotTop | function | 最上部から離れた時に実行 |
 | onBottom | function | 最下部にスクロールした時に実行 |
 | onNotBottom | function | 最下部から離れた時に実行 |
+| element | '' | document全体ではなく、特定エレメントのスクロールを使いたい時に指定 |
 
 
 ## License

@@ -478,7 +478,10 @@ var _class = function () {
             onBottom: function onBottom() {},
 
             // 最下部から離れた時に実行
-            onNotBottom: function onNotBottom() {}
+            onNotBottom: function onNotBottom() {},
+
+            // 特定エレメントのスクロールを対象にしたい
+            element: ''
         };
 
         this.opt = _Object$assign(defaults, options);
@@ -490,6 +493,8 @@ var _class = function () {
         this.is_started = false; // 開始した
         this.is_top = false; // 一番上にスクロールした
         this.is_bottom = false; // 一番下にスクロールした
+        // スクロール量を調べるエレメント
+        this.element = this.opt.element ? document.querySelector(this.opt.element) : null;
 
         this.ev_resize = null;
         this.ev_scroll = null;
@@ -557,7 +562,7 @@ var _class = function () {
     }, {
         key: '_scroll',
         value: function _scroll() {
-            var scroll_top = window.pageYOffset;
+            var scroll_top = this.element ? this.element.scrollTop : window.pageYOffset;
 
             // 初期化
             this.results = [];
@@ -596,7 +601,7 @@ var _class = function () {
         key: '_check_top_and_bottom',
         value: function _check_top_and_bottom(scroll_top) {
             var opt = this.opt;
-            var doc_height = document.documentElement.scrollHeight;
+            var doc_height = this.element ? this.element.scrollHeight : document.documentElement.scrollHeight;
             var scroll_bottom = doc_height - this.win_height;
 
             // 最上部か
@@ -633,7 +638,7 @@ var _class = function () {
     }, {
         key: '_resize',
         value: function _resize() {
-            this.win_height = window.window.innerHeight;
+            this.win_height = this.element ? this.element.clientHeight : window.window.innerHeight;
         }
     }]);
 

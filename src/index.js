@@ -34,7 +34,9 @@ export default class {
             // 最下部にスクロールした時に実行
             onBottom() { },
             // 最下部から離れた時に実行
-            onNotBottom() { }
+            onNotBottom() { },
+            // 特定エレメントのスクロールを対象にしたい
+            element: '',
         };
 
         this.opt = Object.assign(defaults, options);
@@ -46,6 +48,8 @@ export default class {
         this.is_started = false; // 開始した
         this.is_top = false; // 一番上にスクロールした
         this.is_bottom = false; // 一番下にスクロールした
+        // スクロール量を調べるエレメント
+        this.element = this.opt.element ? document.querySelector(this.opt.element) : null;
 
         this.ev_resize = null;
         this.ev_scroll = null;
@@ -99,7 +103,7 @@ export default class {
     * スクロール処理
     */
     _scroll() {
-        const scroll_top = window.pageYOffset;
+        const scroll_top = this.element ? this.element.scrollTop : window.pageYOffset;
 
         // 初期化
         this.results = [];
@@ -132,7 +136,7 @@ export default class {
     */
     _check_top_and_bottom(scroll_top) {
         const opt = this.opt;
-        const doc_height = document.documentElement.scrollHeight;
+        const doc_height = this.element ? this.element.scrollHeight : document.documentElement.scrollHeight;
         const scroll_bottom = doc_height - this.win_height;
 
         // 最上部か
@@ -168,7 +172,7 @@ export default class {
     * ウィンドウをリサイズしたら高さなどをチェック
     */
     _resize() {
-        this.win_height = window.window.innerHeight;
+        this.win_height = this.element ? this.element.clientHeight : window.window.innerHeight;
     }
 }
 
