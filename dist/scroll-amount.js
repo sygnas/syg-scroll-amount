@@ -1,655 +1,149 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@sygnas/throttle')) :
-	typeof define === 'function' && define.amd ? define(['@sygnas/throttle'], factory) :
-	(global['syg-scroll-amount'] = factory(global.throttle));
-}(this, (function (throttle) { 'use strict';
-
-throttle = throttle && throttle.hasOwnProperty('default') ? throttle['default'] : throttle;
-
-function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var _global = createCommonjsModule(function (module) {
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
-});
-
-var _core = createCommonjsModule(function (module) {
-var core = module.exports = { version: '2.5.3' };
-if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
-});
-
-var _core_1 = _core.version;
-
-var _aFunction = function (it) {
-  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
-  return it;
-};
-
-// optional / simple context binding
-
-var _ctx = function (fn, that, length) {
-  _aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
-};
-
-var _isObject = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
-
-var _anObject = function (it) {
-  if (!_isObject(it)) throw TypeError(it + ' is not an object!');
-  return it;
-};
-
-var _fails = function (exec) {
-  try {
-    return !!exec();
-  } catch (e) {
-    return true;
-  }
-};
-
-// Thank's IE8 for his funny defineProperty
-var _descriptors = !_fails(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-});
-
-var document$1 = _global.document;
-// typeof document.createElement is 'object' in old IE
-var is = _isObject(document$1) && _isObject(document$1.createElement);
-var _domCreate = function (it) {
-  return is ? document$1.createElement(it) : {};
-};
-
-var _ie8DomDefine = !_descriptors && !_fails(function () {
-  return Object.defineProperty(_domCreate('div'), 'a', { get: function () { return 7; } }).a != 7;
-});
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-var _toPrimitive = function (it, S) {
-  if (!_isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !_isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-var dP = Object.defineProperty;
-
-var f = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  _anObject(O);
-  P = _toPrimitive(P, true);
-  _anObject(Attributes);
-  if (_ie8DomDefine) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-var _objectDp = {
-	f: f
-};
-
-var _propertyDesc = function (bitmap, value) {
-  return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
-  };
-};
-
-var _hide = _descriptors ? function (object, key, value) {
-  return _objectDp.f(object, key, _propertyDesc(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
-};
-
-var PROTOTYPE = 'prototype';
-
-var $export = function (type, name, source) {
-  var IS_FORCED = type & $export.F;
-  var IS_GLOBAL = type & $export.G;
-  var IS_STATIC = type & $export.S;
-  var IS_PROTO = type & $export.P;
-  var IS_BIND = type & $export.B;
-  var IS_WRAP = type & $export.W;
-  var exports = IS_GLOBAL ? _core : _core[name] || (_core[name] = {});
-  var expProto = exports[PROTOTYPE];
-  var target = IS_GLOBAL ? _global : IS_STATIC ? _global[name] : (_global[name] || {})[PROTOTYPE];
-  var key, own, out;
-  if (IS_GLOBAL) source = name;
-  for (key in source) {
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    if (own && key in exports) continue;
-    // export native or passed
-    out = own ? target[key] : source[key];
-    // prevent global pollution for namespaces
-    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-    // bind timers to global for call from export context
-    : IS_BIND && own ? _ctx(out, _global)
-    // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function (C) {
-      var F = function (a, b, c) {
-        if (this instanceof C) {
-          switch (arguments.length) {
-            case 0: return new C();
-            case 1: return new C(a);
-            case 2: return new C(a, b);
-          } return new C(a, b, c);
-        } return C.apply(this, arguments);
-      };
-      F[PROTOTYPE] = C[PROTOTYPE];
-      return F;
-    // make static versions for prototype methods
-    })(out) : IS_PROTO && typeof out == 'function' ? _ctx(Function.call, out) : out;
-    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if (IS_PROTO) {
-      (exports.virtual || (exports.virtual = {}))[key] = out;
-      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if (type & $export.R && expProto && !expProto[key]) _hide(expProto, key, out);
-    }
-  }
-};
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library`
-var _export = $export;
-
-var hasOwnProperty = {}.hasOwnProperty;
-var _has = function (it, key) {
-  return hasOwnProperty.call(it, key);
-};
-
-var toString = {}.toString;
-
-var _cof = function (it) {
-  return toString.call(it).slice(8, -1);
-};
-
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-
-// eslint-disable-next-line no-prototype-builtins
-var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
-  return _cof(it) == 'String' ? it.split('') : Object(it);
-};
-
-// 7.2.1 RequireObjectCoercible(argument)
-var _defined = function (it) {
-  if (it == undefined) throw TypeError("Can't call method on  " + it);
-  return it;
-};
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-
-
-var _toIobject = function (it) {
-  return _iobject(_defined(it));
-};
-
-// 7.1.4 ToInteger
-var ceil = Math.ceil;
-var floor = Math.floor;
-var _toInteger = function (it) {
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-// 7.1.15 ToLength
-
-var min = Math.min;
-var _toLength = function (it) {
-  return it > 0 ? min(_toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-};
-
-var max = Math.max;
-var min$1 = Math.min;
-var _toAbsoluteIndex = function (index, length) {
-  index = _toInteger(index);
-  return index < 0 ? max(index + length, 0) : min$1(index, length);
-};
-
-// false -> Array#indexOf
-// true  -> Array#includes
-
-
-
-var _arrayIncludes = function (IS_INCLUDES) {
-  return function ($this, el, fromIndex) {
-    var O = _toIobject($this);
-    var length = _toLength(O.length);
-    var index = _toAbsoluteIndex(fromIndex, length);
-    var value;
-    // Array#includes uses SameValueZero equality algorithm
-    // eslint-disable-next-line no-self-compare
-    if (IS_INCLUDES && el != el) while (length > index) {
-      value = O[index++];
-      // eslint-disable-next-line no-self-compare
-      if (value != value) return true;
-    // Array#indexOf ignores holes, Array#includes - not
-    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
-      if (O[index] === el) return IS_INCLUDES || index || 0;
-    } return !IS_INCLUDES && -1;
-  };
-};
-
-var SHARED = '__core-js_shared__';
-var store = _global[SHARED] || (_global[SHARED] = {});
-var _shared = function (key) {
-  return store[key] || (store[key] = {});
-};
-
-var id = 0;
-var px = Math.random();
-var _uid = function (key) {
-  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-};
-
-var shared = _shared('keys');
-
-var _sharedKey = function (key) {
-  return shared[key] || (shared[key] = _uid(key));
-};
-
-var arrayIndexOf = _arrayIncludes(false);
-var IE_PROTO = _sharedKey('IE_PROTO');
-
-var _objectKeysInternal = function (object, names) {
-  var O = _toIobject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) if (key != IE_PROTO) _has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (_has(O, key = names[i++])) {
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
-};
-
-// IE 8- don't enum bug keys
-var _enumBugKeys = (
-  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
-).split(',');
-
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-
-
-
-var _objectKeys = Object.keys || function keys(O) {
-  return _objectKeysInternal(O, _enumBugKeys);
-};
-
-var f$1 = Object.getOwnPropertySymbols;
-
-var _objectGops = {
-	f: f$1
-};
-
-var f$2 = {}.propertyIsEnumerable;
-
-var _objectPie = {
-	f: f$2
-};
-
-// 7.1.13 ToObject(argument)
-
-var _toObject = function (it) {
-  return Object(_defined(it));
-};
-
-// 19.1.2.1 Object.assign(target, source, ...)
-
-
-
-
-
-var $assign = Object.assign;
-
-// should work with symbols and should have deterministic property order (V8 bug)
-var _objectAssign = !$assign || _fails(function () {
-  var A = {};
-  var B = {};
-  // eslint-disable-next-line no-undef
-  var S = Symbol();
-  var K = 'abcdefghijklmnopqrst';
-  A[S] = 7;
-  K.split('').forEach(function (k) { B[k] = k; });
-  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
-  var T = _toObject(target);
-  var aLen = arguments.length;
-  var index = 1;
-  var getSymbols = _objectGops.f;
-  var isEnum = _objectPie.f;
-  while (aLen > index) {
-    var S = _iobject(arguments[index++]);
-    var keys = getSymbols ? _objectKeys(S).concat(getSymbols(S)) : _objectKeys(S);
-    var length = keys.length;
-    var j = 0;
-    var key;
-    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
-  } return T;
-} : $assign;
-
-// 19.1.3.1 Object.assign(target, source)
-
-
-_export(_export.S + _export.F, 'Object', { assign: _objectAssign });
-
-var assign = _core.Object.assign;
-
-var assign$2 = createCommonjsModule(function (module) {
-module.exports = { "default": assign, __esModule: true };
-});
-
-var _Object$assign = unwrapExports(assign$2);
-
-var classCallCheck = createCommonjsModule(function (module, exports) {
-exports.__esModule = true;
-
-exports.default = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-});
-
-var _classCallCheck = unwrapExports(classCallCheck);
-
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-_export(_export.S + _export.F * !_descriptors, 'Object', { defineProperty: _objectDp.f });
-
-var $Object = _core.Object;
-var defineProperty = function defineProperty(it, key, desc) {
-  return $Object.defineProperty(it, key, desc);
-};
-
-var defineProperty$2 = createCommonjsModule(function (module) {
-module.exports = { "default": defineProperty, __esModule: true };
-});
-
-unwrapExports(defineProperty$2);
-
-var createClass = createCommonjsModule(function (module, exports) {
-exports.__esModule = true;
-
-
-
-var _defineProperty2 = _interopRequireDefault(defineProperty$2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-});
-
-var _createClass = unwrapExports(createClass);
-
-/**
- * Add scrolling state(top / not-top / bottom / not-bottom)
- *
- * @author   Hiroshi Fukuda <info.sygnas@gmail.com>
- * @license  MIT
- */
-
-var ATTR_NAME = 'data-scroll-amount';
-var ATTR_TOP = 'top';
-var ATTR_BOTTOM = 'bottom';
-var ATTR_NOT_TOP = 'not-top';
-var ATTR_NOT_BOTTOM = 'not-bottom';
-
-var _class = function () {
+var sygScrollAmount = (function () {
+    'use strict';
 
     /**
-     * コンストラクタ
-     * @param {string} target DOM Selector
-     * @param {object} options
+     * Add scrolling state(top / not-top / bottom / not-bottom)
+     *
+     * @author   Hiroshi Fukuda <info.sygnas@gmail.com>
+     * @license  MIT
      */
-    function _class(target) {
-        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-        _classCallCheck(this, _class);
-
-        var defaults = {
-            // 最上部のオフセット
-            offset_top: 70,
-            // 最下部のオフセット
-            offset_bottom: 70,
-            // 最上部にスクロールした時に実行
-            onTop: function onTop() {},
-
-            // 最上部から離れた時に実行
-            onNotTop: function onNotTop() {},
-
-            // 最下部にスクロールした時に実行
-            onBottom: function onBottom() {},
-
-            // 最下部から離れた時に実行
-            onNotBottom: function onNotBottom() {},
-
-            // 特定エレメントのスクロールを対象にしたい
-            element: ''
-        };
-
-        this.opt = _Object$assign(defaults, options);
-        this.target = document.querySelectorAll(target);
-        this.win_height = null; // ブラウザウィンドウの高さ
-        this.interval_id = null; // スクロールイベントのインターバルチェック
-        this.results = []; // data属性に書き出す内容
-        this.last_results_str = null;
-        this.is_started = false; // 開始した
-        this.is_top = false; // 一番上にスクロールした
-        this.is_bottom = false; // 一番下にスクロールした
-        // スクロール量を調べるエレメント
-        this.element = this.opt.element ? document.querySelector(this.opt.element) : null;
-
-        this.ev_resize = null;
-        this.ev_scroll = null;
-
-        // 開始
-        this.start();
-    }
-
-    /** *******************
-     * public
-     */
-
-    /**
-    * スクロール検知処理を開始
-    */
-
-
-    _createClass(_class, [{
-        key: 'start',
-        value: function start() {
-            var _this = this;
-
-            // すでに開始していたら無視
-            if (this.is_started) return;
-
-            // イベントオブジェクト
-            this.ev_resize = throttle(50, this._resize, this);
-            this.ev_scroll = throttle(100, this._scroll, this);
-
-            // リサイズイベントでドキュメント高さチェック
-            this._resize();
-            window.addEventListener('resize', this.ev_resize);
-
-            // スクロールイベント
-            this._scroll();
-            this.is_started = true;
-            window.addEventListener('scroll', this.ev_scroll);
-
-            // 0.5秒間毎にチェックも入れる
-            this.interval_id = setInterval(function () {
-                _this._scroll();
-            }, 500);
-        }
-
+    ///////////////////////////////////////
+    // 状態を付与するためのdata属性
+    var ATTR_NAME = "data-scroll-amount";
+    // 状態の名前
+    var ATTR_TOP = "top";
+    var ATTR_BOTTOM = "bottom";
+    var ATTR_NOT_TOP = "not-top";
+    var ATTR_NOT_BOTTOM = "not-bottom";
+    var ATTR_POSITION = "data-position";
+    // 監視用エレメントのデフォルトstyle
+    var COMMON_STYLE = {
+        position: "absolute",
+        left: "0",
+    };
+    // IntersectionObserverの設定
+    var OBSERVER_OPT = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0,
+    };
+    ///////////////////////////////////////
+    var SygScrollAmount = /** @class */ (function () {
+        // private observers: IntersectionObserver[];
         /**
-        * スクロール検知処理を停止
-        */
-
-    }, {
-        key: 'stop',
-        value: function stop() {
-            window.removeEventListener('resize', this.ev_resize);
-            window.removeEventListener('scroll', this.ev_scroll);
-            clearInterval(this.interval_id);
-        }
-
-        /** *******************
-         * private
+         * コンストラクタ
+         * @param target string 状態を付与する対象エレメントのセレクタ文字列
          */
-
-        /**
-        * スクロール処理
-        */
-
-    }, {
-        key: '_scroll',
-        value: function _scroll() {
-            var scroll_top = this.element ? this.element.scrollTop : window.pageYOffset;
-
-            // 初期化
-            this.results = [];
-
-            // 位置イベントのチェック
-            this._check_top_and_bottom(scroll_top);
-
-            // 属性を付与
-            this._set_attribute();
+        function SygScrollAmount(target, options) {
+            if (options === void 0) { options = {}; }
+            var defaults = {
+                // 最上部のオフセット
+                offsetTop: "70px",
+                // 最下部のオフセット
+                offsetBottom: "70px",
+                // 最上部にスクロールした時に実行
+                onTop: function () { },
+                // 最上部から離れた時に実行
+                onNotTop: function () { },
+                // 最下部にスクロールした時に実行
+                onBottom: function () { },
+                // 最下部から離れた時に実行
+                onNotBottom: function () { },
+            };
+            // 与えられた設定を適用
+            this.opt = Object.assign(defaults, options);
+            // 状態付与の対象
+            this.targets = document.querySelectorAll(target);
+            // this.state = []; // data属性に書き出す内容
+            // this.observers = [];
+            this.isTop = false; // 一番上にスクロールした
+            this.isBottom = false; // 一番下にスクロールした
+            // 最後の状態
+            this.lastState = '';
+            this.start();
         }
-
+        /**
+         * 監視用エレメント作成して監視開始
+         */
+        SygScrollAmount.prototype.createObserveElement = function (position) {
+            var element = document.createElement("div");
+            Object.assign(element.style, COMMON_STYLE);
+            element.style.height = this.opt.offsetTop;
+            element.setAttribute(ATTR_POSITION, position);
+            if (position === "top") {
+                element.style.top = "0";
+            }
+            else {
+                element.style.bottom = "0";
+            }
+            // ページ最下部に追加
+            document.body.appendChild(element);
+            return element;
+        };
+        /**
+         * スクロール検知処理を開始
+         */
+        SygScrollAmount.prototype.start = function () {
+            // <body> に position 設定
+            document.body.style.position = "relative";
+            // IntersectionObserverを作成して監視開始
+            var observer = new IntersectionObserver(this.observerCallback.bind(this), OBSERVER_OPT);
+            // 監視用エレメント作成
+            observer.observe(this.createObserveElement("top"));
+            observer.observe(this.createObserveElement("bottom"));
+        };
+        /**
+         * スクロール処理
+         * IntersectionObserver に反応した <div> が top/bottom どちらかで判定する
+         */
+        SygScrollAmount.prototype.observerCallback = function (entries) {
+            var _this = this;
+            entries.forEach(function (entry) {
+                var position = entry.target.getAttribute(ATTR_POSITION);
+                if (position === "top") {
+                    _this.isTop = entry.isIntersecting;
+                }
+                else {
+                    _this.isBottom = entry.isIntersecting;
+                }
+            });
+            // 属性を付与
+            this.setAttribute();
+        };
         /**
          * 属性を付与
          */
-
-    }, {
-        key: '_set_attribute',
-        value: function _set_attribute() {
-            var results_str = this.results.join(' ');
-
+        SygScrollAmount.prototype.setAttribute = function () {
+            var state = [
+                this.isTop ? ATTR_TOP : ATTR_NOT_TOP,
+                this.isBottom ? ATTR_BOTTOM : ATTR_NOT_BOTTOM,
+            ].join(' ');
             // 結果を data属性に反映する
             // 前回と同じなら反映しない
-            if (results_str !== this.last_results_str) {
-                this.last_results_str = results_str;
-                get_node_array(this.target).forEach(function (target) {
-                    target.setAttribute(ATTR_NAME, results_str);
+            if (state !== this.lastState) {
+                this.lastState = state;
+                this.targets.forEach(function (target) {
+                    target.setAttribute(ATTR_NAME, state);
                 });
+                // オプション関数を実行
+                if (this.isTop) {
+                    this.opt.onTop();
+                }
+                else {
+                    this.opt.onNotTop();
+                }
+                if (this.isBottom) {
+                    this.opt.onBottom();
+                }
+                else {
+                    this.opt.onNotBottom();
+                }
             }
-        }
+        };
+        return SygScrollAmount;
+    }());
 
-        /**
-        * 最上部か最下部かのチェック
-        */
+    return SygScrollAmount;
 
-    }, {
-        key: '_check_top_and_bottom',
-        value: function _check_top_and_bottom(scroll_top) {
-            var opt = this.opt;
-            var doc_height = this.element ? this.element.scrollHeight : document.documentElement.scrollHeight;
-            var scroll_bottom = doc_height - this.win_height;
-
-            // 最上部か
-            if (scroll_top <= opt.offset_top) {
-                // ページ最上部
-                if (!this.is_top) opt.onTop();
-                this.is_top = true;
-                this.results.push(ATTR_TOP);
-            } else {
-                // 最上部から離れた
-                if (this.is_top) opt.onNotTop();
-                this.is_top = false;
-                this.results.push(ATTR_NOT_TOP);
-            }
-
-            // 最下部か
-            if (scroll_top >= scroll_bottom - opt.offset_bottom) {
-                // ページ最下部
-                if (!this.is_bottom) opt.onBottom();
-                this.is_bottom = true;
-                this.results.push(ATTR_BOTTOM);
-            } else {
-                // 最下部から離れた
-                if (this.is_bottom) opt.onNotBottom();
-                this.is_bottom = false;
-                this.results.push(ATTR_NOT_BOTTOM);
-            }
-        }
-
-        /**
-        * ウィンドウをリサイズしたら高さなどをチェック
-        */
-
-    }, {
-        key: '_resize',
-        value: function _resize() {
-            this.win_height = this.element ? this.element.clientHeight : window.window.innerHeight;
-        }
-    }]);
-
-    return _class;
-}();
-
-function get_node_array(node_list) {
-    return Array.prototype.slice.call(node_list, 0);
-}
-
-return _class;
-
-})));
-//# sourceMappingURL=scroll-amount.js.map
+})();
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2Nyb2xsLWFtb3VudC5qcyIsInNvdXJjZXMiOlsiLi4vc3JjL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQWRkIHNjcm9sbGluZyBzdGF0ZSh0b3AgLyBub3QtdG9wIC8gYm90dG9tIC8gbm90LWJvdHRvbSlcbiAqXG4gKiBAYXV0aG9yICAgSGlyb3NoaSBGdWt1ZGEgPGluZm8uc3lnbmFzQGdtYWlsLmNvbT5cbiAqIEBsaWNlbnNlICBNSVRcbiAqL1xuXG5pbXBvcnQgeyBUT3B0aW9uLCBUT3B0aW9uQXJnIH0gZnJvbSBcIi4vVE9wdGlvblwiO1xuXG50eXBlIFRUb3BPckJvdHRvbSA9IFwidG9wXCIgfCBcImJvdHRvbVwiO1xuXG4vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9cblxuXG4vLyDnirbmhYvjgpLku5jkuI7jgZnjgovjgZ/jgoHjga5kYXRh5bGe5oCnXG5jb25zdCBBVFRSX05BTUU6IHN0cmluZyA9IFwiZGF0YS1zY3JvbGwtYW1vdW50XCI7XG5cbi8vIOeKtuaFi+OBruWQjeWJjVxuY29uc3QgQVRUUl9UT1A6IHN0cmluZyA9IFwidG9wXCI7XG5jb25zdCBBVFRSX0JPVFRPTTogc3RyaW5nID0gXCJib3R0b21cIjtcbmNvbnN0IEFUVFJfTk9UX1RPUDogc3RyaW5nID0gXCJub3QtdG9wXCI7XG5jb25zdCBBVFRSX05PVF9CT1RUT006IHN0cmluZyA9IFwibm90LWJvdHRvbVwiO1xuY29uc3QgQVRUUl9QT1NJVElPTjogc3RyaW5nID0gXCJkYXRhLXBvc2l0aW9uXCI7XG5cbi8vIOebo+imlueUqOOCqOODrOODoeODs+ODiOOBruODh+ODleOCqeODq+ODiHN0eWxlXG5jb25zdCBDT01NT05fU1RZTEU6IG9iamVjdCA9IHtcbiAgcG9zaXRpb246IFwiYWJzb2x1dGVcIixcbiAgbGVmdDogXCIwXCIsXG59O1xuXG4vLyBJbnRlcnNlY3Rpb25PYnNlcnZlcuOBruioreWumlxuY29uc3QgT0JTRVJWRVJfT1BUOiBvYmplY3QgPSB7XG4gIHJvb3Q6IG51bGwsXG4gIHJvb3RNYXJnaW46IFwiMHB4XCIsXG4gIHRocmVzaG9sZDogMCxcbn07XG5cbi8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1xuY2xhc3MgU3lnU2Nyb2xsQW1vdW50IHtcbiAgcHJpdmF0ZSBvcHQ6IFRPcHRpb247XG4gIHByaXZhdGUgdGFyZ2V0cztcbiAgcHJpdmF0ZSBpc1RvcDogYm9vbGVhbjtcbiAgcHJpdmF0ZSBpc0JvdHRvbTogYm9vbGVhbjtcbiAgcHJpdmF0ZSBsYXN0U3RhdGU6IHN0cmluZztcbiAgLy8gcHJpdmF0ZSBvYnNlcnZlcnM6IEludGVyc2VjdGlvbk9ic2VydmVyW107XG5cbiAgLyoqXG4gICAqIOOCs+ODs+OCueODiOODqeOCr+OCv1xuICAgKiBAcGFyYW0gdGFyZ2V0IHN0cmluZyDnirbmhYvjgpLku5jkuI7jgZnjgovlr77osaHjgqjjg6zjg6Hjg7Pjg4jjga7jgrvjg6zjgq/jgr/mloflrZfliJdcbiAgICovXG4gIGNvbnN0cnVjdG9yKHRhcmdldDogc3RyaW5nLCBvcHRpb25zOiBUT3B0aW9uQXJnID0ge30pIHtcbiAgICBjb25zdCBkZWZhdWx0czogVE9wdGlvbiA9IHtcbiAgICAgIC8vIOacgOS4iumDqOOBruOCquODleOCu+ODg+ODiFxuICAgICAgb2Zmc2V0VG9wOiBcIjcwcHhcIixcbiAgICAgIC8vIOacgOS4i+mDqOOBruOCquODleOCu+ODg+ODiFxuICAgICAgb2Zmc2V0Qm90dG9tOiBcIjcwcHhcIixcbiAgICAgIC8vIOacgOS4iumDqOOBq+OCueOCr+ODreODvOODq+OBl+OBn+aZguOBq+Wun+ihjFxuICAgICAgb25Ub3AoKSB7fSxcbiAgICAgIC8vIOacgOS4iumDqOOBi+OCiembouOCjOOBn+aZguOBq+Wun+ihjFxuICAgICAgb25Ob3RUb3AoKSB7fSxcbiAgICAgIC8vIOacgOS4i+mDqOOBq+OCueOCr+ODreODvOODq+OBl+OBn+aZguOBq+Wun+ihjFxuICAgICAgb25Cb3R0b20oKSB7fSxcbiAgICAgIC8vIOacgOS4i+mDqOOBi+OCiembouOCjOOBn+aZguOBq+Wun+ihjFxuICAgICAgb25Ob3RCb3R0b20oKSB7fSxcbiAgICB9O1xuXG4gICAgLy8g5LiO44GI44KJ44KM44Gf6Kit5a6a44KS6YGp55SoXG4gICAgdGhpcy5vcHQgPSBPYmplY3QuYXNzaWduKGRlZmF1bHRzLCBvcHRpb25zKTtcbiAgICAvLyDnirbmhYvku5jkuI7jga7lr77osaFcbiAgICB0aGlzLnRhcmdldHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsPEhUTUxFbGVtZW50Pih0YXJnZXQpO1xuICAgIC8vIHRoaXMuc3RhdGUgPSBbXTsgLy8gZGF0YeWxnuaAp+OBq+abuOOBjeWHuuOBmeWGheWuuVxuICAgIC8vIHRoaXMub2JzZXJ2ZXJzID0gW107XG4gICAgdGhpcy5pc1RvcCA9IGZhbHNlOyAvLyDkuIDnlarkuIrjgavjgrnjgq/jg63jg7zjg6vjgZfjgZ9cbiAgICB0aGlzLmlzQm90dG9tID0gZmFsc2U7IC8vIOS4gOeVquS4i+OBq+OCueOCr+ODreODvOODq+OBl+OBn1xuICAgIC8vIOacgOW+jOOBrueKtuaFi1xuICAgIHRoaXMubGFzdFN0YXRlID0gJyc7XG5cbiAgICB0aGlzLnN0YXJ0KCk7XG4gIH1cblxuICAvKipcbiAgICog55uj6KaW55So44Ko44Os44Oh44Oz44OI5L2c5oiQ44GX44Gm55uj6KaW6ZaL5aeLXG4gICAqL1xuICBjcmVhdGVPYnNlcnZlRWxlbWVudChwb3NpdGlvbjogVFRvcE9yQm90dG9tKTogSFRNTERpdkVsZW1lbnQge1xuICAgIGNvbnN0IGVsZW1lbnQ6IEhUTUxEaXZFbGVtZW50ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcblxuICAgIE9iamVjdC5hc3NpZ24oZWxlbWVudC5zdHlsZSwgQ09NTU9OX1NUWUxFKTtcbiAgICBlbGVtZW50LnN0eWxlLmhlaWdodCA9IHRoaXMub3B0Lm9mZnNldFRvcDtcbiAgICBlbGVtZW50LnNldEF0dHJpYnV0ZShBVFRSX1BPU0lUSU9OLCBwb3NpdGlvbik7XG5cbiAgICBpZiAocG9zaXRpb24gPT09IFwidG9wXCIpIHtcbiAgICAgIGVsZW1lbnQuc3R5bGUudG9wID0gXCIwXCI7XG4gICAgfSBlbHNlIHtcbiAgICAgIGVsZW1lbnQuc3R5bGUuYm90dG9tID0gXCIwXCI7XG4gICAgfVxuICAgIC8vIOODmuODvOOCuOacgOS4i+mDqOOBq+i/veWKoFxuICAgIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoZWxlbWVudCk7XG4gICAgcmV0dXJuIGVsZW1lbnQ7XG4gIH1cblxuICAvKipcbiAgICog44K544Kv44Ot44O844Or5qSc55+l5Yem55CG44KS6ZaL5aeLXG4gICAqL1xuICBwcml2YXRlIHN0YXJ0KCkge1xuICAgIC8vIDxib2R5PiDjgasgcG9zaXRpb24g6Kit5a6aXG4gICAgZG9jdW1lbnQuYm9keS5zdHlsZS5wb3NpdGlvbiA9IFwicmVsYXRpdmVcIjtcblxuICAgIC8vIEludGVyc2VjdGlvbk9ic2VydmVy44KS5L2c5oiQ44GX44Gm55uj6KaW6ZaL5aeLXG4gICAgY29uc3Qgb2JzZXJ2ZXI6IEludGVyc2VjdGlvbk9ic2VydmVyID0gbmV3IEludGVyc2VjdGlvbk9ic2VydmVyKFxuICAgICAgdGhpcy5vYnNlcnZlckNhbGxiYWNrLmJpbmQodGhpcyksXG4gICAgICBPQlNFUlZFUl9PUFRcbiAgICApO1xuXG4gICAgLy8g55uj6KaW55So44Ko44Os44Oh44Oz44OI5L2c5oiQXG4gICAgb2JzZXJ2ZXIub2JzZXJ2ZSh0aGlzLmNyZWF0ZU9ic2VydmVFbGVtZW50KFwidG9wXCIpKTtcbiAgICBvYnNlcnZlci5vYnNlcnZlKHRoaXMuY3JlYXRlT2JzZXJ2ZUVsZW1lbnQoXCJib3R0b21cIikpO1xuICB9XG5cbiAgLyoqXG4gICAqIOOCueOCr+ODreODvOODq+WHpueQhlxuICAgKiBJbnRlcnNlY3Rpb25PYnNlcnZlciDjgavlj43lv5zjgZfjgZ8gPGRpdj4g44GMIHRvcC9ib3R0b20g44Gp44Gh44KJ44GL44Gn5Yik5a6a44GZ44KLXG4gICAqL1xuICBwcml2YXRlIG9ic2VydmVyQ2FsbGJhY2soXG4gICAgZW50cmllczogSW50ZXJzZWN0aW9uT2JzZXJ2ZXJFbnRyeVtdXG4gICkge1xuXG4gICAgZW50cmllcy5mb3JFYWNoKChlbnRyeSkgPT4ge1xuICAgICAgY29uc3QgcG9zaXRpb246IFRUb3BPckJvdHRvbSA9IGVudHJ5LnRhcmdldC5nZXRBdHRyaWJ1dGUoXG4gICAgICAgIEFUVFJfUE9TSVRJT05cbiAgICAgICkgYXMgVFRvcE9yQm90dG9tO1xuXG4gICAgICBpZiAocG9zaXRpb24gPT09IFwidG9wXCIpIHtcbiAgICAgICAgdGhpcy5pc1RvcCA9IGVudHJ5LmlzSW50ZXJzZWN0aW5nO1xuICAgICAgfSBlbHNlIHtcbiAgICAgICAgdGhpcy5pc0JvdHRvbSA9IGVudHJ5LmlzSW50ZXJzZWN0aW5nO1xuICAgICAgfVxuICAgIH0pO1xuXG4gICAgLy8g5bGe5oCn44KS5LuY5LiOXG4gICAgdGhpcy5zZXRBdHRyaWJ1dGUoKTtcbiAgfVxuXG4gIC8qKlxuICAgKiDlsZ7mgKfjgpLku5jkuI5cbiAgICovXG4gIHByaXZhdGUgc2V0QXR0cmlidXRlKCk6IHZvaWQge1xuICAgIGNvbnN0IHN0YXRlOiBzdHJpbmcgPSBbXG4gICAgICB0aGlzLmlzVG9wID8gQVRUUl9UT1AgOiBBVFRSX05PVF9UT1AsXG4gICAgICB0aGlzLmlzQm90dG9tID8gQVRUUl9CT1RUT00gOiBBVFRSX05PVF9CT1RUT00sXG4gICAgXS5qb2luKCcgJyk7XG5cbiAgICAvLyDntZDmnpzjgpIgZGF0YeWxnuaAp+OBq+WPjeaYoOOBmeOCi1xuICAgIC8vIOWJjeWbnuOBqOWQjOOBmOOBquOCieWPjeaYoOOBl+OBquOBhFxuICAgIGlmIChzdGF0ZSAhPT0gdGhpcy5sYXN0U3RhdGUpIHtcbiAgICAgIHRoaXMubGFzdFN0YXRlPSBzdGF0ZTtcblxuICAgICAgdGhpcy50YXJnZXRzLmZvckVhY2goKHRhcmdldDogSFRNTEVsZW1lbnQpID0+IHtcbiAgICAgICAgdGFyZ2V0LnNldEF0dHJpYnV0ZShBVFRSX05BTUUsIHN0YXRlKTtcbiAgICAgIH0pO1xuXG4gICAgICAvLyDjgqrjg5fjgrfjg6fjg7PplqLmlbDjgpLlrp/ooYxcbiAgICAgIGlmKHRoaXMuaXNUb3Ape1xuICAgICAgICB0aGlzLm9wdC5vblRvcCgpO1xuICAgICAgfWVsc2V7XG4gICAgICAgIHRoaXMub3B0Lm9uTm90VG9wKCk7XG4gICAgICB9XG5cbiAgICAgIGlmKHRoaXMuaXNCb3R0b20pe1xuICAgICAgICB0aGlzLm9wdC5vbkJvdHRvbSgpO1xuICAgICAgfWVsc2V7XG4gICAgICAgIHRoaXMub3B0Lm9uTm90Qm90dG9tKCk7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG5cblxuZXhwb3J0IGRlZmF1bHQgU3lnU2Nyb2xsQW1vdW50O1xuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztJQUFBOzs7Ozs7SUFXQTtJQUdBO0lBQ0EsSUFBTSxTQUFTLEdBQVcsb0JBQW9CLENBQUM7SUFFL0M7SUFDQSxJQUFNLFFBQVEsR0FBVyxLQUFLLENBQUM7SUFDL0IsSUFBTSxXQUFXLEdBQVcsUUFBUSxDQUFDO0lBQ3JDLElBQU0sWUFBWSxHQUFXLFNBQVMsQ0FBQztJQUN2QyxJQUFNLGVBQWUsR0FBVyxZQUFZLENBQUM7SUFDN0MsSUFBTSxhQUFhLEdBQVcsZUFBZSxDQUFDO0lBRTlDO0lBQ0EsSUFBTSxZQUFZLEdBQVc7UUFDM0IsUUFBUSxFQUFFLFVBQVU7UUFDcEIsSUFBSSxFQUFFLEdBQUc7S0FDVixDQUFDO0lBRUY7SUFDQSxJQUFNLFlBQVksR0FBVztRQUMzQixJQUFJLEVBQUUsSUFBSTtRQUNWLFVBQVUsRUFBRSxLQUFLO1FBQ2pCLFNBQVMsRUFBRSxDQUFDO0tBQ2IsQ0FBQztJQUVGOzs7Ozs7O1FBYUUseUJBQVksTUFBYyxFQUFFLE9BQXdCO1lBQXhCLHdCQUFBLEVBQUEsWUFBd0I7WUFDbEQsSUFBTSxRQUFRLEdBQVk7O2dCQUV4QixTQUFTLEVBQUUsTUFBTTs7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

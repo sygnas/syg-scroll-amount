@@ -1,11 +1,20 @@
 # syg-scroll-amount
-Set data attribute according to status at the time of page scroll(top / not-top / bottom / not-bottom ..)
 
-ページスクロール時にステータスに応じたdata属性を付与する（top / not-top / bottom / not-bottom ..）。
+ページの最上部、最下部、それ以外の状態を data属性に付与する。
+
+## History
+
+- 2021.11.21  ver.2.0.0
+  - TypeScriptで書き直した
+  - スクロールイベントではなく intersectionObserver を使うようにした
+  - スクロール位置検知用エレメントを `position:absolut` で配置する関係で、<body> に `position:relative` が付与される。
 
 ## Description
-スクロールに応じた固定ヘッダーの出し入れなどに使います。
-ブラウザがページスクロールした時に、「ページ最上部にいる」「ページ最上部にいない」などのステータスのdata属性をエレメントに付与します。
+ページ最上部にいる時は`data-scroll-amount`属性に「top」を付与します。
+最下部は「bottom」、それ以外は「no-top」「no-bottom」を付与します。
+
+固定ヘッダーの出し入れや、ページトップボタンの出し入れなどに使います。
+
 
 ## Usage
 ### Install
@@ -15,7 +24,7 @@ npm install --save @sygnas/scroll-amount
 ### html / JS / css
 ```html
 <header class="js-scroll-amount scroll-amount">
-    ...menu...
+    出し入れしたい内容
 </header>
 ```
 
@@ -42,7 +51,7 @@ const target1 = new ScrollAmount('.js-scroll-amount', {
 属性 `data-scroll-amount` にステータスが書き出されます。
 
 ```Example
-<header class="js-scroll-amount scroll-amount" data-scroll-amount="top pin">
+<header class="js-scroll-amount scroll-amount" data-scroll-amount="top no-bottom">
 ```
 
 | name | comment |
@@ -57,13 +66,12 @@ const target1 = new ScrollAmount('.js-scroll-amount', {
 
 | option | default | comment |
 | ---- | ---- | ---- |
-| offset_top | 50 | スクロール位置がこの値より上ならページ最上部と判断 |
-| offset_bottom | 50 | スクロール位置がこの値より下ならページ最下部と判断 |
+| offsetTop | 70px | スクロール位置がこの値より上ならページ最上部と判断 |
+| offsetBottom | 70px | スクロール位置がこの値より下ならページ最下部と判断 |
 | onTop | function | 最上部にスクロールした時に実行 |
 | onNotTop | function | 最上部から離れた時に実行 |
 | onBottom | function | 最下部にスクロールした時に実行 |
 | onNotBottom | function | 最下部から離れた時に実行 |
-| element | '' | document全体ではなく、特定エレメントのスクロールを使いたい時に指定 |
 
 
 ## License

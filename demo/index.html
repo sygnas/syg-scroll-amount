@@ -1,48 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            body{
-                margin: 0;
-                padding: 0;
-            }
-            .box{
-                background-image: url("img/bg.png");
-                width: 200px;
-                height: 2500px;
-            }
-            .scroll-amount{
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100px;
-                background-color: #79cafb;
-                transition: .2s;
-            }
-            .scroll-amount[data-scroll-amount ~= "not-top"]{
-                background-color: #cccafb;
-            }
-            .scroll-amount:after{
-                content: attr(data-scroll-amount);
-            }
+  <head>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .box {
+        background-image: url("img/bg.png");
+        width: 200px;
+        height: 2500px;
+      }
+      .scroll-amount {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background-color: #79cafb;
+        transition: 0.2s;
+      }
+      .scroll-amount[data-scroll-amount ~= "not-top"] {
+        background-color: #cccafb;
+      }
+      .scroll-amount:after {
+        content: attr(data-scroll-amount);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="js-scroll-amount scroll-amount">scroll amount<br /></div>
 
-        </style>
-    </head>
-    <body>
+    <div class="box">box</div>
 
-        <div class="js-scroll-amount scroll-amount">
-            scroll amount<br>
-            <button class="js-stop">STOP</button><br>
-        </div>
-
-        <div class="box">
-            box
-        </div>
-
-        <script src="bundle.js?2"></script>
-    </body>
+    <script src="bundle.js"></script>
+  </body>
 </html>
-
-
-

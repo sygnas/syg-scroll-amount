@@ -1,155 +1,5 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-var index = function index(timing, func, scope) {
-    var id = null;
-
-    return function () {
-        if (id !== null) return;
-        func.apply(scope);
-
-        id = setTimeout(function () {
-            id = null;
-        }, timing);
-    };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (index);
-//# sourceMappingURL=throttle.es.js.map
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dist_scroll_amount__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dist_scroll_amount___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__dist_scroll_amount__);
-
-
-
-var target1 = new __WEBPACK_IMPORTED_MODULE_0__dist_scroll_amount___default.a('.js-scroll-amount', {
-    onTop: function onTop() {
-        console.log("top");
-    },
-    onBottom: function onBottom() {
-        console.log("bottom");
-    }
-});
-
-var btn = document.querySelectorAll('.js-stop')[0];
-btn.addEventListener('click', function () {
-    target1.stop();
-});
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    ( false ? 'undefined' : babelHelpers.typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory(__webpack_require__(0)) :  true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : global['syg-scroll-amount'] = factory(global.throttle);
-})(this, function (throttle) {
+(function () {
     'use strict';
-
-    throttle = throttle && throttle.hasOwnProperty('default') ? throttle['default'] : throttle;
-
-    var classCallCheck = function classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    };
-
-    var createClass = function () {
-        function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-
-        return function (Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-        };
-    }();
 
     /**
      * Add scrolling state(top / not-top / bottom / not-bottom)
@@ -157,213 +7,165 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      * @author   Hiroshi Fukuda <info.sygnas@gmail.com>
      * @license  MIT
      */
+    ///////////////////////////////////////
+    // 状態を付与するためのdata属性
+    var ATTR_NAME = "data-scroll-amount"; // 状態の名前
 
-    var ATTR_NAME = 'data-scroll-amount';
-    var ATTR_TOP = 'top';
-    var ATTR_BOTTOM = 'bottom';
-    var ATTR_NOT_TOP = 'not-top';
-    var ATTR_NOT_BOTTOM = 'not-bottom';
+    var ATTR_TOP = "top";
+    var ATTR_BOTTOM = "bottom";
+    var ATTR_NOT_TOP = "not-top";
+    var ATTR_NOT_BOTTOM = "not-bottom";
+    var ATTR_POSITION = "data-position"; // 監視用エレメントのデフォルトstyle
 
-    var _class = function () {
+    var COMMON_STYLE = {
+      position: "absolute",
+      left: "0"
+    }; // IntersectionObserverの設定
 
-        /**
-         * コンストラクタ
-         * @param {string} target DOM Selector
-         * @param {object} options
-         */
-        function _class(target) {
-            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-            classCallCheck(this, _class);
+    var OBSERVER_OPT = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0
+    }; ///////////////////////////////////////
 
-            var defaults$$1 = {
-                // 最上部のオフセット
-                offset_top: 70,
-                // 最下部のオフセット
-                offset_bottom: 70,
-                // 最上部にスクロールした時に実行
-                onTop: function onTop() {},
+    var SygScrollAmount =
+    /** @class */
+    function () {
+      // private observers: IntersectionObserver[];
 
-                // 最上部から離れた時に実行
-                onNotTop: function onNotTop() {},
-
-                // 最下部にスクロールした時に実行
-                onBottom: function onBottom() {},
-
-                // 最下部から離れた時に実行
-                onNotBottom: function onNotBottom() {}
-            };
-
-            this.opt = Object.assign(defaults$$1, options);
-            this.target = document.querySelectorAll(target);
-            this.win_height = null; // ブラウザウィンドウの高さ
-            this.interval_id = null; // スクロールイベントのインターバルチェック
-            this.results = []; // data属性に書き出す内容
-            this.last_results_str = null;
-            this.is_started = false; // 開始した
-            this.is_top = false; // 一番上にスクロールした
-            this.is_bottom = false; // 一番下にスクロールした
-
-            this.ev_resize = null;
-            this.ev_scroll = null;
-
-            // 開始
-            this.start();
+      /**
+       * コンストラクタ
+       * @param target string 状態を付与する対象エレメントのセレクタ文字列
+       */
+      function SygScrollAmount(target, options) {
+        if (options === void 0) {
+          options = {};
         }
 
-        /** *******************
-         * public
-         */
+        var defaults = {
+          // 最上部のオフセット
+          offsetTop: "70px",
+          // 最下部のオフセット
+          offsetBottom: "70px",
+          // 最上部にスクロールした時に実行
+          onTop: function onTop() {},
+          // 最上部から離れた時に実行
+          onNotTop: function onNotTop() {},
+          // 最下部にスクロールした時に実行
+          onBottom: function onBottom() {},
+          // 最下部から離れた時に実行
+          onNotBottom: function onNotBottom() {}
+        }; // 与えられた設定を適用
 
-        /**
-        * スクロール検知処理を開始
-        */
+        this.opt = Object.assign(defaults, options); // 状態付与の対象
 
-        createClass(_class, [{
-            key: 'start',
-            value: function start() {
-                var _this = this;
+        this.targets = document.querySelectorAll(target); // this.state = []; // data属性に書き出す内容
+        // this.observers = [];
 
-                // すでに開始していたら無視
-                if (this.is_started) return;
+        this.isTop = false; // 一番上にスクロールした
 
-                // イベントオブジェクト
-                this.ev_resize = throttle(50, this._resize, this);
-                this.ev_scroll = throttle(100, this._scroll, this);
+        this.isBottom = false; // 一番下にスクロールした
+        // 最後の状態
 
-                // リサイズイベントでドキュメント高さチェック
-                this._resize();
-                window.addEventListener('resize', this.ev_resize);
+        this.lastState = '';
+        this.start();
+      }
+      /**
+       * 監視用エレメント作成して監視開始
+       */
 
-                // スクロールイベント
-                this._scroll();
-                this.is_started = true;
-                window.addEventListener('scroll', this.ev_scroll);
 
-                // 0.5秒間毎にチェックも入れる
-                this.interval_id = setInterval(function () {
-                    _this._scroll();
-                }, 500);
-            }
+      SygScrollAmount.prototype.createObserveElement = function (position) {
+        var element = document.createElement("div");
+        Object.assign(element.style, COMMON_STYLE);
+        element.style.height = this.opt.offsetTop;
+        element.setAttribute(ATTR_POSITION, position);
 
-            /**
-            * スクロール検知処理を停止
-            */
+        if (position === "top") {
+          element.style.top = "0";
+        } else {
+          element.style.bottom = "0";
+        } // ページ最下部に追加
 
-        }, {
-            key: 'stop',
-            value: function stop() {
-                window.removeEventListener('resize', this.ev_resize);
-                window.removeEventListener('scroll', this.ev_scroll);
-                clearInterval(this.interval_id);
-            }
 
-            /** *******************
-             * private
-             */
+        document.body.appendChild(element);
+        return element;
+      };
+      /**
+       * スクロール検知処理を開始
+       */
 
-            /**
-            * スクロール処理
-            */
 
-        }, {
-            key: '_scroll',
-            value: function _scroll() {
-                var scroll_top = window.pageYOffset;
+      SygScrollAmount.prototype.start = function () {
+        // <body> に position 設定
+        document.body.style.position = "relative"; // IntersectionObserverを作成して監視開始
 
-                // 初期化
-                this.results = [];
+        var observer = new IntersectionObserver(this.observerCallback.bind(this), OBSERVER_OPT); // 監視用エレメント作成
 
-                // 位置イベントのチェック
-                this._check_top_and_bottom(scroll_top);
+        observer.observe(this.createObserveElement("top"));
+        observer.observe(this.createObserveElement("bottom"));
+      };
+      /**
+       * スクロール処理
+       * IntersectionObserver に反応した <div> が top/bottom どちらかで判定する
+       */
 
-                // 属性を付与
-                this._set_attribute();
-            }
 
-            /**
-             * 属性を付与
-             */
+      SygScrollAmount.prototype.observerCallback = function (entries) {
+        var _this = this;
 
-        }, {
-            key: '_set_attribute',
-            value: function _set_attribute() {
-                var results_str = this.results.join(' ');
+        entries.forEach(function (entry) {
+          var position = entry.target.getAttribute(ATTR_POSITION);
 
-                // 結果を data属性に反映する
-                // 前回と同じなら反映しない
-                if (results_str !== this.last_results_str) {
-                    this.last_results_str = results_str;
-                    get_node_array(this.target).forEach(function (target) {
-                        target.setAttribute(ATTR_NAME, results_str);
-                    });
-                }
-            }
+          if (position === "top") {
+            _this.isTop = entry.isIntersecting;
+          } else {
+            _this.isBottom = entry.isIntersecting;
+          }
+        }); // 属性を付与
 
-            /**
-            * 最上部か最下部かのチェック
-            */
+        this.setAttribute();
+      };
+      /**
+       * 属性を付与
+       */
 
-        }, {
-            key: '_check_top_and_bottom',
-            value: function _check_top_and_bottom(scroll_top) {
-                var opt = this.opt;
-                var doc_height = document.documentElement.scrollHeight;
-                var scroll_bottom = doc_height - this.win_height;
 
-                // 最上部か
-                if (scroll_top <= opt.offset_top) {
-                    // ページ最上部
-                    if (!this.is_top) opt.onTop();
-                    this.is_top = true;
-                    this.results.push(ATTR_TOP);
-                } else {
-                    // 最上部から離れた
-                    if (this.is_top) opt.onNotTop();
-                    this.is_top = false;
-                    this.results.push(ATTR_NOT_TOP);
-                }
+      SygScrollAmount.prototype.setAttribute = function () {
+        var state = [this.isTop ? ATTR_TOP : ATTR_NOT_TOP, this.isBottom ? ATTR_BOTTOM : ATTR_NOT_BOTTOM].join(' '); // 結果を data属性に反映する
+        // 前回と同じなら反映しない
 
-                // 最下部か
-                if (scroll_top >= scroll_bottom - opt.offset_bottom) {
-                    // ページ最下部
-                    if (!this.is_bottom) opt.onBottom();
-                    this.is_bottom = true;
-                    this.results.push(ATTR_BOTTOM);
-                } else {
-                    // 最下部から離れた
-                    if (this.is_bottom) opt.onNotBottom();
-                    this.is_bottom = false;
-                    this.results.push(ATTR_NOT_BOTTOM);
-                }
-            }
+        if (state !== this.lastState) {
+          this.lastState = state;
+          this.targets.forEach(function (target) {
+            target.setAttribute(ATTR_NAME, state);
+          }); // オプション関数を実行
 
-            /**
-            * ウィンドウをリサイズしたら高さなどをチェック
-            */
+          if (this.isTop) {
+            this.opt.onTop();
+          } else {
+            this.opt.onNotTop();
+          }
 
-        }, {
-            key: '_resize',
-            value: function _resize() {
-                this.win_height = window.window.innerHeight;
-            }
-        }]);
-        return _class;
+          if (this.isBottom) {
+            this.opt.onBottom();
+          } else {
+            this.opt.onNotBottom();
+          }
+        }
+      };
+
+      return SygScrollAmount;
     }();
 
-    function get_node_array(node_list) {
-        return Array.prototype.slice.call(node_list, 0);
-    }
+    new SygScrollAmount('.js-scroll-amount', {
+        onTop() {
+            console.log("top");
+        },
+        onBottom() {
+            console.log("bottom");
+        }
+    });
 
-    return _class;
-});
-//# sourceMappingURL=scroll-amount.js.map
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(1);
-
-
-/***/ })
-/******/ ]);
+})();
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYnVuZGxlLmpzIiwic291cmNlcyI6WyIuLi9kaXN0L2luZGV4LmVzLmpzIiwic3JjL2RlbW8udHMiXSwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBBZGQgc2Nyb2xsaW5nIHN0YXRlKHRvcCAvIG5vdC10b3AgLyBib3R0b20gLyBub3QtYm90dG9tKVxuICpcbiAqIEBhdXRob3IgICBIaXJvc2hpIEZ1a3VkYSA8aW5mby5zeWduYXNAZ21haWwuY29tPlxuICogQGxpY2Vuc2UgIE1JVFxuICovXG4vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9cbi8vIOeKtuaFi+OCkuS7mOS4juOBmeOCi+OBn+OCgeOBrmRhdGHlsZ7mgKdcbnZhciBBVFRSX05BTUUgPSBcImRhdGEtc2Nyb2xsLWFtb3VudFwiO1xuLy8g54q25oWL44Gu5ZCN5YmNXG52YXIgQVRUUl9UT1AgPSBcInRvcFwiO1xudmFyIEFUVFJfQk9UVE9NID0gXCJib3R0b21cIjtcbnZhciBBVFRSX05PVF9UT1AgPSBcIm5vdC10b3BcIjtcbnZhciBBVFRSX05PVF9CT1RUT00gPSBcIm5vdC1ib3R0b21cIjtcbnZhciBBVFRSX1BPU0lUSU9OID0gXCJkYXRhLXBvc2l0aW9uXCI7XG4vLyDnm6PoppbnlKjjgqjjg6zjg6Hjg7Pjg4jjga7jg4fjg5Xjgqnjg6vjg4hzdHlsZVxudmFyIENPTU1PTl9TVFlMRSA9IHtcbiAgICBwb3NpdGlvbjogXCJhYnNvbHV0ZVwiLFxuICAgIGxlZnQ6IFwiMFwiLFxufTtcbi8vIEludGVyc2VjdGlvbk9ic2VydmVy44Gu6Kit5a6aXG52YXIgT0JTRVJWRVJfT1BUID0ge1xuICAgIHJvb3Q6IG51bGwsXG4gICAgcm9vdE1hcmdpbjogXCIwcHhcIixcbiAgICB0aHJlc2hvbGQ6IDAsXG59O1xuLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vXG52YXIgU3lnU2Nyb2xsQW1vdW50ID0gLyoqIEBjbGFzcyAqLyAoZnVuY3Rpb24gKCkge1xuICAgIC8vIHByaXZhdGUgb2JzZXJ2ZXJzOiBJbnRlcnNlY3Rpb25PYnNlcnZlcltdO1xuICAgIC8qKlxuICAgICAqIOOCs+ODs+OCueODiOODqeOCr+OCv1xuICAgICAqIEBwYXJhbSB0YXJnZXQgc3RyaW5nIOeKtuaFi+OCkuS7mOS4juOBmeOCi+WvvuixoeOCqOODrOODoeODs+ODiOOBruOCu+ODrOOCr+OCv+aWh+Wtl+WIl1xuICAgICAqL1xuICAgIGZ1bmN0aW9uIFN5Z1Njcm9sbEFtb3VudCh0YXJnZXQsIG9wdGlvbnMpIHtcbiAgICAgICAgaWYgKG9wdGlvbnMgPT09IHZvaWQgMCkgeyBvcHRpb25zID0ge307IH1cbiAgICAgICAgdmFyIGRlZmF1bHRzID0ge1xuICAgICAgICAgICAgLy8g5pyA5LiK6YOo44Gu44Kq44OV44K744OD44OIXG4gICAgICAgICAgICBvZmZzZXRUb3A6IFwiNzBweFwiLFxuICAgICAgICAgICAgLy8g5pyA5LiL6YOo44Gu44Kq44OV44K744OD44OIXG4gICAgICAgICAgICBvZmZzZXRCb3R0b206IFwiNzBweFwiLFxuICAgICAgICAgICAgLy8g5pyA5LiK6YOo44Gr44K544Kv44Ot44O844Or44GX44Gf5pmC44Gr5a6f6KGMXG4gICAgICAgICAgICBvblRvcDogZnVuY3Rpb24gKCkgeyB9LFxuICAgICAgICAgICAgLy8g5pyA5LiK6YOo44GL44KJ6Zui44KM44Gf5pmC44Gr5a6f6KGMXG4gICAgICAgICAgICBvbk5vdFRvcDogZnVuY3Rpb24gKCkgeyB9LFxuICAgICAgICAgICAgLy8g5pyA5LiL6YOo44Gr44K544Kv44Ot44O844Or44GX44Gf5pmC44Gr5a6f6KGMXG4gICAgICAgICAgICBvbkJvdHRvbTogZnVuY3Rpb24gKCkgeyB9LFxuICAgICAgICAgICAgLy8g5pyA5LiL6YOo44GL44KJ6Zui44KM44Gf5pmC44Gr5a6f6KGMXG4gICAgICAgICAgICBvbk5vdEJvdHRvbTogZnVuY3Rpb24gKCkgeyB9LFxuICAgICAgICB9O1xuICAgICAgICAvLyDkuI7jgYjjgonjgozjgZ/oqK3lrprjgpLpgannlKhcbiAgICAgICAgdGhpcy5vcHQgPSBPYmplY3QuYXNzaWduKGRlZmF1bHRzLCBvcHRpb25zKTtcbiAgICAgICAgLy8g54q25oWL5LuY5LiO44Gu5a++6LGhXG4gICAgICAgIHRoaXMudGFyZ2V0cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwodGFyZ2V0KTtcbiAgICAgICAgLy8gdGhpcy5zdGF0ZSA9IFtdOyAvLyBkYXRh5bGe5oCn44Gr5pu444GN5Ye644GZ5YaF5a65XG4gICAgICAgIC8vIHRoaXMub2JzZXJ2ZXJzID0gW107XG4gICAgICAgIHRoaXMuaXNUb3AgPSBmYWxzZTsgLy8g5LiA55Wq5LiK44Gr44K544Kv44Ot44O844Or44GX44GfXG4gICAgICAgIHRoaXMuaXNCb3R0b20gPSBmYWxzZTsgLy8g5LiA55Wq5LiL44Gr44K544Kv44Ot44O844Or44GX44GfXG4gICAgICAgIC8vIOacgOW+jOOBrueKtuaFi1xuICAgICAgICB0aGlzLmxhc3RTdGF0ZSA9ICcnO1xuICAgICAgICB0aGlzLnN0YXJ0KCk7XG4gICAgfVxuICAgIC8qKlxuICAgICAqIOebo+imlueUqOOCqOODrOODoeODs+ODiOS9nOaIkOOBl+OBpuebo+imlumWi+Wni1xuICAgICAqL1xuICAgIFN5Z1Njcm9sbEFtb3VudC5wcm90b3R5cGUuY3JlYXRlT2JzZXJ2ZUVsZW1lbnQgPSBmdW5jdGlvbiAocG9zaXRpb24pIHtcbiAgICAgICAgdmFyIGVsZW1lbnQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuICAgICAgICBPYmplY3QuYXNzaWduKGVsZW1lbnQuc3R5bGUsIENPTU1PTl9TVFlMRSk7XG4gICAgICAgIGVsZW1lbnQuc3R5bGUuaGVpZ2h0ID0gdGhpcy5vcHQub2Zmc2V0VG9wO1xuICAgICAgICBlbGVtZW50LnNldEF0dHJpYnV0ZShBVFRSX1BPU0lUSU9OLCBwb3NpdGlvbik7XG4gICAgICAgIGlmIChwb3NpdGlvbiA9PT0gXCJ0b3BcIikge1xuICAgICAgICAgICAgZWxlbWVudC5zdHlsZS50b3AgPSBcIjBcIjtcbiAgICAgICAgfVxuICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgIGVsZW1lbnQuc3R5bGUuYm90dG9tID0gXCIwXCI7XG4gICAgICAgIH1cbiAgICAgICAgLy8g44Oa44O844K45pyA5LiL6YOo44Gr6L+95YqgXG4gICAgICAgIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoZWxlbWVudCk7XG4gICAgICAgIHJldHVybiBlbGVtZW50O1xuICAgIH07XG4gICAgLyoqXG4gICAgICog44K544Kv44Ot44O844Or5qSc55+l5Yem55CG44KS6ZaL5aeLXG4gICAgICovXG4gICAgU3lnU2Nyb2xsQW1vdW50LnByb3RvdHlwZS5zdGFydCA9IGZ1bmN0aW9uICgpIHtcbiAgICAgICAgLy8gPGJvZHk+IOOBqyBwb3NpdGlvbiDoqK3lrppcbiAgICAgICAgZG9jdW1lbnQuYm9keS5zdHlsZS5wb3NpdGlvbiA9IFwicmVsYXRpdmVcIjtcbiAgICAgICAgLy8gSW50ZXJzZWN0aW9uT2JzZXJ2ZXLjgpLkvZzmiJDjgZfjgabnm6Poppbplovlp4tcbiAgICAgICAgdmFyIG9ic2VydmVyID0gbmV3IEludGVyc2VjdGlvbk9ic2VydmVyKHRoaXMub2JzZXJ2ZXJDYWxsYmFjay5iaW5kKHRoaXMpLCBPQlNFUlZFUl9PUFQpO1xuICAgICAgICAvLyDnm6PoppbnlKjjgqjjg6zjg6Hjg7Pjg4jkvZzmiJBcbiAgICAgICAgb2JzZXJ2ZXIub2JzZXJ2ZSh0aGlzLmNyZWF0ZU9ic2VydmVFbGVtZW50KFwidG9wXCIpKTtcbiAgICAgICAgb2JzZXJ2ZXIub2JzZXJ2ZSh0aGlzLmNyZWF0ZU9ic2VydmVFbGVtZW50KFwiYm90dG9tXCIpKTtcbiAgICB9O1xuICAgIC8qKlxuICAgICAqIOOCueOCr+ODreODvOODq+WHpueQhlxuICAgICAqIEludGVyc2VjdGlvbk9ic2VydmVyIOOBq+WPjeW/nOOBl+OBnyA8ZGl2PiDjgYwgdG9wL2JvdHRvbSDjganjgaHjgonjgYvjgafliKTlrprjgZnjgotcbiAgICAgKi9cbiAgICBTeWdTY3JvbGxBbW91bnQucHJvdG90eXBlLm9ic2VydmVyQ2FsbGJhY2sgPSBmdW5jdGlvbiAoZW50cmllcykge1xuICAgICAgICB2YXIgX3RoaXMgPSB0aGlzO1xuICAgICAgICBlbnRyaWVzLmZvckVhY2goZnVuY3Rpb24gKGVudHJ5KSB7XG4gICAgICAgICAgICB2YXIgcG9zaXRpb24gPSBlbnRyeS50YXJnZXQuZ2V0QXR0cmlidXRlKEFUVFJfUE9TSVRJT04pO1xuICAgICAgICAgICAgaWYgKHBvc2l0aW9uID09PSBcInRvcFwiKSB7XG4gICAgICAgICAgICAgICAgX3RoaXMuaXNUb3AgPSBlbnRyeS5pc0ludGVyc2VjdGluZztcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIGVsc2Uge1xuICAgICAgICAgICAgICAgIF90aGlzLmlzQm90dG9tID0gZW50cnkuaXNJbnRlcnNlY3Rpbmc7XG4gICAgICAgICAgICB9XG4gICAgICAgIH0pO1xuICAgICAgICAvLyDlsZ7mgKfjgpLku5jkuI5cbiAgICAgICAgdGhpcy5zZXRBdHRyaWJ1dGUoKTtcbiAgICB9O1xuICAgIC8qKlxuICAgICAqIOWxnuaAp+OCkuS7mOS4jlxuICAgICAqL1xuICAgIFN5Z1Njcm9sbEFtb3VudC5wcm90b3R5cGUuc2V0QXR0cmlidXRlID0gZnVuY3Rpb24gKCkge1xuICAgICAgICB2YXIgc3RhdGUgPSBbXG4gICAgICAgICAgICB0aGlzLmlzVG9wID8gQVRUUl9UT1AgOiBBVFRSX05PVF9UT1AsXG4gICAgICAgICAgICB0aGlzLmlzQm90dG9tID8gQVRUUl9CT1RUT00gOiBBVFRSX05PVF9CT1RUT00sXG4gICAgICAgIF0uam9pbignICcpO1xuICAgICAgICAvLyDntZDmnpzjgpIgZGF0YeWxnuaAp+OBq+WPjeaYoOOBmeOCi1xuICAgICAgICAvLyDliY3lm57jgajlkIzjgZjjgarjgonlj43mmKDjgZfjgarjgYRcbiAgICAgICAgaWYgKHN0YXRlICE9PSB0aGlzLmxhc3RTdGF0ZSkge1xuICAgICAgICAgICAgdGhpcy5sYXN0U3RhdGUgPSBzdGF0ZTtcbiAgICAgICAgICAgIHRoaXMudGFyZ2V0cy5mb3JFYWNoKGZ1bmN0aW9uICh0YXJnZXQpIHtcbiAgICAgICAgICAgICAgICB0YXJnZXQuc2V0QXR0cmlidXRlKEFUVFJfTkFNRSwgc3RhdGUpO1xuICAgICAgICAgICAgfSk7XG4gICAgICAgICAgICAvLyDjgqrjg5fjgrfjg6fjg7PplqLmlbDjgpLlrp/ooYxcbiAgICAgICAgICAgIGlmICh0aGlzLmlzVG9wKSB7XG4gICAgICAgICAgICAgICAgdGhpcy5vcHQub25Ub3AoKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIGVsc2Uge1xuICAgICAgICAgICAgICAgIHRoaXMub3B0Lm9uTm90VG9wKCk7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICBpZiAodGhpcy5pc0JvdHRvbSkge1xuICAgICAgICAgICAgICAgIHRoaXMub3B0Lm9uQm90dG9tKCk7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICB0aGlzLm9wdC5vbk5vdEJvdHRvbSgpO1xuICAgICAgICAgICAgfVxuICAgICAgICB9XG4gICAgfTtcbiAgICByZXR1cm4gU3lnU2Nyb2xsQW1vdW50O1xufSgpKTtcblxuZXhwb3J0IHsgU3lnU2Nyb2xsQW1vdW50IGFzIGRlZmF1bHQgfTtcbiIsIlxuaW1wb3J0IFNjcm9sbEFtb3VudCBmcm9tICcuLi8uLi9kaXN0L2luZGV4LmVzLmpzJztcblxuY29uc3QgdGFyZ2V0MSA9IG5ldyBTY3JvbGxBbW91bnQoJy5qcy1zY3JvbGwtYW1vdW50Jywge1xuICAgIG9uVG9wKCkge1xuICAgICAgICBjb25zb2xlLmxvZyhcInRvcFwiKTtcbiAgICB9LFxuICAgIG9uQm90dG9tKCkge1xuICAgICAgICBjb25zb2xlLmxvZyhcImJvdHRvbVwiKTtcbiAgICB9XG59KTtcblxuIl0sIm5hbWVzIjpbIkFUVFJfTkFNRSIsIkFUVFJfVE9QIiwiQVRUUl9CT1RUT00iLCJBVFRSX05PVF9UT1AiLCJBVFRSX05PVF9CT1RUT00iLCJBVFRSX1BPU0lUSU9OIiwiQ09NTU9OX1NUWUxFIiwicG9zaXRpb24iLCJsZWZ0IiwiT0JTRVJWRVJfT1BUIiwicm9vdCIsInJvb3RNYXJnaW4iLCJ0aHJlc2hvbGQiLCJTeWdTY3JvbGxBbW91bnQiLCJ0YXJnZXQiLCJvcHRpb25zIiwiZGVmYXVsdHMiLCJvZmZzZXRUb3AiLCJvZmZzZXRCb3R0b20iLCJvblRvcCIsIm9uTm90VG9wIiwib25Cb3R0b20iLCJvbk5vdEJvdHRvbSIsIm9wdCIsIk9iamVjdCIsImFzc2lnbiIsInRhcmdldHMiLCJkb2N1bWVudCIsInF1ZXJ5U2VsZWN0b3JBbGwiLCJpc1RvcCIsImlzQm90dG9tIiwibGFzdFN0YXRlIiwic3RhcnQiLCJwcm90b3R5cGUiLCJjcmVhdGVPYnNlcnZlRWxlbWVudCIsImVsZW1lbnQiLCJjcmVhdGVFbGVtZW50Iiwic3R5bGUiLCJoZWlnaHQiLCJzZXRBdHRyaWJ1dGUiLCJ0b3AiLCJib3R0b20iLCJib2R5IiwiYXBwZW5kQ2hpbGQiLCJvYnNlcnZlciIsIkludGVyc2VjdGlvbk9ic2VydmVyIiwib2JzZXJ2ZXJDYWxsYmFjayIsImJpbmQiLCJvYnNlcnZlIiwiZW50cmllcyIsIl90aGlzIiwiZm9yRWFjaCIsImVudHJ5IiwiZ2V0QXR0cmlidXRlIiwiaXNJbnRlcnNlY3RpbmciLCJzdGF0ZSIsImpvaW4iLCJTY3JvbGxBbW91bnQiXSwibWFwcGluZ3MiOiI7OztJQUFBO0lBQ0E7SUFDQTtJQUNBO0lBQ0E7SUFDQTtJQUNBO0lBQ0E7SUFDQSxJQUFJQSxTQUFTLEdBQUcsb0JBQWhCOztJQUVBLElBQUlDLFFBQVEsR0FBRyxLQUFmO0lBQ0EsSUFBSUMsV0FBVyxHQUFHLFFBQWxCO0lBQ0EsSUFBSUMsWUFBWSxHQUFHLFNBQW5CO0lBQ0EsSUFBSUMsZUFBZSxHQUFHLFlBQXRCO0lBQ0EsSUFBSUMsYUFBYSxHQUFHLGVBQXBCOztJQUVBLElBQUlD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
