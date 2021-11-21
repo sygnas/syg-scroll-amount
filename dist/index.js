@@ -53,10 +53,10 @@ var SygScrollAmount = /** @class */ (function () {
         this.opt = Object.assign(defaults, options);
         // 状態付与の対象
         this.targets = document.querySelectorAll(target);
-        // this.state = []; // data属性に書き出す内容
-        // this.observers = [];
-        this.isTop = false; // 一番上にスクロールした
-        this.isBottom = false; // 一番下にスクロールした
+        // 一番上にスクロールした
+        this.isTop = false;
+        // 一番下にスクロールした
+        this.isBottom = false;
         // 最後の状態
         this.lastState = '';
         this.start();
@@ -125,16 +125,16 @@ var SygScrollAmount = /** @class */ (function () {
                 target.setAttribute(ATTR_NAME, state);
             });
             // オプション関数を実行
-            if (this.isTop) {
+            if (this.isTop && this.opt.onTop) {
                 this.opt.onTop();
             }
-            else {
+            else if (this.opt.onNotTop) {
                 this.opt.onNotTop();
             }
-            if (this.isBottom) {
+            if (this.isBottom && this.opt.onBottom) {
                 this.opt.onBottom();
             }
-            else {
+            else if (this.opt.onNotBottom) {
                 this.opt.onNotBottom();
             }
         }

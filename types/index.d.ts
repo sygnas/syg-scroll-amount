@@ -4,8 +4,7 @@
  * @author   Hiroshi Fukuda <info.sygnas@gmail.com>
  * @license  MIT
  */
-import { TOptionArg } from "./TOption";
-declare type TTopOrBottom = "top" | "bottom";
+import { TOption, TTopOrBottom } from "./types";
 declare class SygScrollAmount {
     private opt;
     private targets;
@@ -16,7 +15,7 @@ declare class SygScrollAmount {
      * コンストラクタ
      * @param target string 状態を付与する対象エレメントのセレクタ文字列
      */
-    constructor(target: string, options?: TOptionArg);
+    constructor(target: string, options?: TOption);
     /**
      * 監視用エレメント作成して監視開始
      */
