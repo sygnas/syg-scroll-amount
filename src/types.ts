@@ -1,6 +1,9 @@
 
+type TTopOrBottom = "top" | "bottom";
+
 // 引数用に省略可能オプション「?」がついてる
-type TOptionArg = {
+// type TOptionArg = {
+type TOption = {
   // 最上部のオフセット
   offsetTop?: string;
   // 最下部のオフセット
@@ -15,13 +18,13 @@ type TOptionArg = {
   onNotBottom?:  () => void;
 };
 
-type TOption = {
-  offsetTop: string;
-  offsetBottom: string;
-  onTop: () => void;
-  onNotTop:  () => void;
-  onBottom:  () => void;
-  onNotBottom:  () => void;
-};
+// type TOption = {
+//   offsetTop: string;
+//   offsetBottom: string;
+//   onTop: () => void;
+//   onNotTop:  () => void;
+//   onBottom:  () => void;
+//   onNotBottom:  () => void;
+// };
 
-export type {TOptionArg, TOption}
+export type {TOption, TTopOrBottom}
