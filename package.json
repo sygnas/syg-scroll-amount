@@ -15,9 +15,8 @@
   "scripts": {
     "start": "npm run watch",
     "watch": "rollup -w -c rollup.config.js",
-    "delete": "rm -rf dist && rm -rf types",
-    "build": "npm run delete && rollup -c rollup.config.js",
-    "types": "tsc -d --outDir types --noEmit false",
+    "build": "rm -rf dist && rollup -c rollup.config.js",
+    "types": "rm -rf types && tsc -d --outDir types --noEmit false --emitDeclarationOnly true",
     "demo": "rollup -c rollup.demo.config.js",
     "production": "npm run build && npm run types",
     "lint": "eslint src"
