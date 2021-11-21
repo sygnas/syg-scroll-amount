@@ -5,9 +5,8 @@
  * @license  MIT
  */
 
-import { TOption, TOptionArg } from "./TOption";
+import { TOption, TTopOrBottom } from "./types";
 
-type TTopOrBottom = "top" | "bottom";
 
 ///////////////////////////////////////
 
@@ -29,7 +28,7 @@ const COMMON_STYLE: object = {
 };
 
 // IntersectionObserverの設定
-const OBSERVER_OPT: object = {
+const OBSERVER_OPT: IntersectionObserverInit = {
   root: null,
   rootMargin: "0px",
   threshold: 0,
@@ -48,7 +47,7 @@ class SygScrollAmount {
    * コンストラクタ
    * @param target string 状態を付与する対象エレメントのセレクタ文字列
    */
-  constructor(target: string, options: TOptionArg = {}) {
+  constructor(target: string, options: TOption = {}) {
     const defaults: TOption = {
       // 最上部のオフセット
       offsetTop: "70px",
@@ -68,10 +67,10 @@ class SygScrollAmount {
     this.opt = Object.assign(defaults, options);
     // 状態付与の対象
     this.targets = document.querySelectorAll<HTMLElement>(target);
-    // this.state = []; // data属性に書き出す内容
-    // this.observers = [];
-    this.isTop = false; // 一番上にスクロールした
-    this.isBottom = false; // 一番下にスクロールした
+    // 一番上にスクロールした
+    this.isTop = false;
+    // 一番下にスクロールした
+    this.isBottom = false;
     // 最後の状態
     this.lastState = '';
 
@@ -85,7 +84,7 @@ class SygScrollAmount {
     const element: HTMLDivElement = document.createElement("div");
 
     Object.assign(element.style, COMMON_STYLE);
-    element.style.height = this.opt.offsetTop;
+    element.style.height = this.opt.offsetTop as string;
     element.setAttribute(ATTR_POSITION, position);
 
     if (position === "top") {
@@ -120,9 +119,7 @@ class SygScrollAmount {
    * スクロール処理
    * IntersectionObserver に反応した <div> が top/bottom どちらかで判定する
    */
-  private observerCallback(
-    entries: IntersectionObserverEntry[]
-  ) {
+  private observerCallback( entries: IntersectionObserverEntry[]): void {
 
     entries.forEach((entry) => {
       const position: TTopOrBottom = entry.target.getAttribute(
@@ -159,15 +156,15 @@ class SygScrollAmount {
       });
 
       // オプション関数を実行
-      if(this.isTop){
+      if(this.isTop && this.opt.onTop){
         this.opt.onTop();
-      }else{
+      }else if(this.opt.onNotTop){
         this.opt.onNotTop();
       }
 
-      if(this.isBottom){
+      if(this.isBottom && this.opt.onBottom){
         this.opt.onBottom();
-      }else{
+      }else if(this.opt.onNotBottom){
         this.opt.onNotBottom();
       }
     }
