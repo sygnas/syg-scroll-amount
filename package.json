@@ -1,6 +1,6 @@
 {
   "name": "@sygnas/scroll-amount",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Add scrolling state(top / not-top / bottom / not-bottom)",
   "main": "dist/commonjs/index.js",
   "module": "dist/es6/index.js",
