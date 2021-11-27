@@ -4,7 +4,6 @@
   "description": "Add scrolling state(top / not-top / bottom / not-bottom)",
   "main": "dist/commonjs/index.js",
   "module": "dist/es6/index.js",
-  "browser": "dist/scroll-amount.js",
   "moduleName": "sygScrollAmount",
   "private": false,
   "repository": {

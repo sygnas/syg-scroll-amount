@@ -4,6 +4,8 @@
 
 ## History
 
+- 2021.11.27  ver.2.1.0
+  - ブラウザ版は削除
 - 2021.11.21  ver.2.0.0
   - TypeScriptで書き直した
   - スクロールイベントではなく intersectionObserver を使うようにした
